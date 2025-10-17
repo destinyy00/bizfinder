@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String   // hashed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businesses Business[]
+}
+
+model Business {
+  id           String    @id @default(cuid())
+  name         String
+  description  String?
+  category     String?
+  phone        String?
+  website      String?
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  state        String?
+  postalCode   String?
+  country      String?
+  latitude     Float
+  longitude    Float
+  ownerId      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  owner   User   @relation(fields: [ownerId], references: [id])
+  photos  Photo[]
+  reviews Review[]
+
+  @@index([name])
+  @@index([category])
+  @@index([city, state, country])
+}
+
+model Photo {
+  id          String   @id @default(cuid())
+  businessId  String
+  url         String
+  caption     String?
+  createdAt   DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id])
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  businessId  String
+  rating      Int      // 1-5
+  comment     String?
+  authorName  String?
+  createdAt   DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id])
+
+  @@index([businessId])
+}

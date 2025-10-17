@@ -12,15 +12,78 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode driven by html.dark (next-themes) */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Base link/button tweaks */
+a {
+  text-decoration: none;
+}
+
+.btn {
+  @apply rounded px-4 py-2 inline-flex items-center justify-center transition-colors;
+}
+.btn-primary {
+  @apply bg-black text-white dark:bg-white dark:text-black;
+}
+.btn-outline {
+  @apply border border-gray-300 dark:border-neutral-700 text-gray-900 dark:text-white bg-white dark:bg-black;
+}
+
+/* Button interaction states */
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary:hover {
+  @apply opacity-90;
+}
+.btn-outline:hover { @apply bg-gray-100 dark:bg-neutral-800; }
+
+/* Cards */
+.card {
+  @apply rounded border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-sm;
+}
+
+/* Containers */
+.container {
+  @apply mx-auto max-w-6xl px-6 sm:px-8;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  display: inline-block;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Simple animations */
+.fade-in {
+  animation: fadeIn 600ms ease-out both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Neutral hero background (no purple gradient) */
+.gradient-hero {
+  background: radial-gradient(1200px 300px at 50% -10%, rgba(0,0,0,0.04), transparent);
+}
+.dark .gradient-hero {
+  background: radial-gradient(1200px 300px at 50% -10%, rgba(255,255,255,0.05), transparent);
 }
