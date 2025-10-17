@@ -1,0 +1,5 @@
+src/generated/**
+prisma/**
+public/uploads/**
+scripts/**
+supabase/**

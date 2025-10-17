@@ -34,9 +34,10 @@ export function getAuthFromRequest(req: NextRequest): JwtPayload | null {
   return verifyJwt(cookie);
 }
 
-export function setAuthCookie(payload: JwtPayload) {
+export async function setAuthCookie(payload: JwtPayload) {
   const token = signJwt(payload);
-  cookies().set(JWT_COOKIE_NAME, token, {
+  const c = await cookies();
+  c.set(JWT_COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -45,8 +46,9 @@ export function setAuthCookie(payload: JwtPayload) {
   });
 }
 
-export function clearAuthCookie() {
-  cookies().delete(JWT_COOKIE_NAME);
+export async function clearAuthCookie() {
+  const c = await cookies();
+  c.delete(JWT_COOKIE_NAME);
 }
 
 
